@@ -36,9 +36,9 @@
 
 Модель:
 
-![](https://i.imgur.com/KipK7yt.jpg)
+![](https://i.imgur.com/Lihj92k.jpeg)
 
-<<<<<<< HEAD
+
 | Прецедент №1 | Создание компании |
 | ---- | ---- |
 | Предусловие | - |
