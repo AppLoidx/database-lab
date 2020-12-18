@@ -117,3 +117,21 @@ begin
         where s.id=scene_uuid;
 end;
 $$ language plpgsql;
+
+------------------
+
+CREATE OR REPLACE FUNCTION count_rows(schema_name name)
+    RETURNS TABLE
+            (
+                col1 name,
+                col2 name,
+                amount bigint
+            )
+AS
+$$
+BEGIN
+    RETURN QUERY SELECT schemaname, relname, n_live_tup
+                 FROM pg_stat_user_tables
+                 where schemaname = schema_name;
+END;
+$$ LANGUAGE plpgsql;
