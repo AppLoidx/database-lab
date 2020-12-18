@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:11.3-alpine
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: lab_works
+    ports:
+      - 6666:5432
