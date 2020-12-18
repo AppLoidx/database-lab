@@ -157,3 +157,35 @@ BEGIN
                    AND start_date > t1;
 END;
 $$ LANGUAGE plpgsql;
+
+----------------------
+
+CREATE OR REPLACE FUNCTION active_cameraman()
+    RETURNS TABLE
+            (
+                id               uuid,
+                created_date     timestamp,
+                description      text,
+                doc_url          varchar(255),
+                end_date         timestamp,
+                interrupted_col  boolean,
+                interrupted_date timestamp,
+                name             varchar(255),
+                printed          boolean,
+                company_id       uuid,
+                id_col      uuid,
+                employee         uuid,
+                contract_id      uuid,
+                employee_id      uuid,
+                film_id          uuid
+            )
+AS
+$$
+BEGIN
+    RETURN QUERY select *
+                 from contract
+                          join cameraman c2 on contract.id = c2.contract_id
+                     AND contract.end_date > NOW()
+                     AND interrupted = false;
+END;
+$$ LANGUAGE plpgsql;
