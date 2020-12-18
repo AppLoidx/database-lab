@@ -55,3 +55,23 @@ end;
 $$ language plpgsql;
 
 ------------------
+
+CREATE OR REPLACE FUNCTION scene_places(scene_uuid uuid)
+    RETURNS TABLE
+            (
+                scene   varchar(255),
+                city    varchar(255),
+                country varchar(255),
+                address varchar(255)
+            )
+AS
+$$
+BEGIN
+    RETURN QUERY
+        SELECT s.name, p.city, p.country, p.address
+        FROM scene s
+                 JOIN scene_place sp ON sp.scene_list_id = s.id
+                 JOIN place p ON p.id = sp.place_id
+        WHERE s.id=scene_uuid;
+END;
+$$ LANGUAGE plpgsql;
