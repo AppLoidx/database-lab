@@ -135,3 +135,25 @@ BEGIN
                  where schemaname = schema_name;
 END;
 $$ LANGUAGE plpgsql;
+
+-------------------
+
+CREATE OR REPLACE FUNCTION select_experiences_between(t1 timestamp, t2 timestamp)
+    RETURNS TABLE
+            (
+                id       uuid,
+                start    timestamp,
+
+                role     varchar(255),
+                end_d    timestamp,
+                employee uuid
+            )
+AS
+$$
+BEGIN
+    RETURN QUERY SELECT *
+                 from experience
+                 where end_date < t2
+                   AND start_date > t1;
+END;
+$$ LANGUAGE plpgsql;
