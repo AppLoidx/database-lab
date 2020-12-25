@@ -50,3 +50,27 @@ create trigger on_occupation_change_trigger
     on occupation
     for each row
 execute procedure on_occupation_change();
+
+-- триггер на расторжение договора
+
+create or replace function on_contact_interrupt() returns trigger as
+$$
+begin
+    if new.interrupted IS true AND (old IS NULL OR old.interrupted IS false) then
+        if (new.interrupted_date <= CURRENT_TIMESTAMP) then
+            return new;
+        else
+            RAISE EXCEPTION 'the interrupted date should not be in the future';
+        end if;
+    end if;
+
+    return new;
+end;
+$$
+    language plpgsql;
+
+create trigger on_contact_interrupt_trigger
+    before insert or update
+    on contract
+    for each row
+execute procedure on_contact_interrupt();
